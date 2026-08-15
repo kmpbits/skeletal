@@ -1,16 +1,15 @@
 package com.kmpbits.skeletal
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.semantics.SemanticsPropertyKey
@@ -24,14 +23,6 @@ internal object SkeletonTestTags {
 
 internal val SkeletonLoadingKey = SemanticsPropertyKey<Boolean>("SkeletalLoading")
 internal var SemanticsPropertyReceiver.skeletalLoading by SkeletonLoadingKey
-
-/**
- * Test-only hook exposing the live, animated crossfade alpha ([Animatable] value driving
- * `graphicsLayer.alpha`/the shimmer's complementary alpha) so tests can assert the reveal is
- * genuinely animated over time rather than an instant cut.
- */
-internal val SkeletonContentAlphaKey = SemanticsPropertyKey<Float>("SkeletalContentAlpha")
-internal var SemanticsPropertyReceiver.skeletalContentAlpha by SkeletonContentAlphaKey
 
 /**
  * Draws a shimmering placeholder over this element while an ancestor [SkeletonContainer] is
@@ -57,10 +48,7 @@ fun Modifier.skeleton(shape: SkeletonShape = SkeletonShape.Auto): Modifier = com
     // inside it) — the shimmer is drawn by the outer block using its own `alpha` draw
     // param, so it fades independently instead of being dragged down by the same alpha.
     this
-        .semantics {
-            skeletalLoading = loading
-            skeletalContentAlpha = contentAlpha.value
-        }
+        .semantics { skeletalLoading = loading }
         .drawWithContent {
             drawContent()
             val shimmerAlpha = 1f - contentAlpha.value
@@ -76,7 +64,6 @@ fun Modifier.skeleton(shape: SkeletonShape = SkeletonShape.Auto): Modifier = com
         }
         .graphicsLayer {
             alpha = contentAlpha.value
-            compositingStrategy = CompositingStrategy.Offscreen
         }
 }
 
@@ -99,7 +86,7 @@ private fun ContentDrawScope.drawShimmer(
         SkeletonShape.Auto -> drawRoundRect(
             brush = brush,
             alpha = alpha,
-            cornerRadius = androidx.compose.ui.geometry.CornerRadius(cornerRadius.toPx(), cornerRadius.toPx()),
+            cornerRadius = CornerRadius(cornerRadius.toPx(), cornerRadius.toPx()),
         )
 
         SkeletonShape.Circle -> drawCircle(
@@ -112,7 +99,7 @@ private fun ContentDrawScope.drawShimmer(
         is SkeletonShape.RoundedCorner -> drawRoundRect(
             brush = brush,
             alpha = alpha,
-            cornerRadius = androidx.compose.ui.geometry.CornerRadius(
+            cornerRadius = CornerRadius(
                 shape.radius.toPx(),
                 shape.radius.toPx(),
             ),

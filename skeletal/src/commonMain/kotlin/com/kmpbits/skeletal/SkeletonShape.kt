@@ -7,7 +7,10 @@ import androidx.compose.ui.unit.Dp
  */
 sealed interface SkeletonShape {
 
-    /** Rounded rectangle matching the element's own measured bounds, using [SkeletonDefaults.cornerRadius]. */
+    /**
+     * Rounded rectangle matching the element's own measured bounds, using the enclosing
+     * [SkeletonContainer]'s corner radius (defaults to [SkeletonDefaults.cornerRadius]).
+     */
     data object Auto : SkeletonShape
 
     /** Circle inscribed in the element's own measured bounds. */
