@@ -1,4 +1,4 @@
-package com.kmpbits.skeletal.sample
+package io.github.kmpbits.skeletal.sample
 
 data class SamplePost(
     val title: String,

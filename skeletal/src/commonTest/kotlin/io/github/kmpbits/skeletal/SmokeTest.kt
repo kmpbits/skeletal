@@ -1,4 +1,4 @@
-package com.kmpbits.skeletal
+package io.github.kmpbits.skeletal
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text

@@ -1,4 +1,4 @@
-package com.kmpbits.skeletal.sample
+package io.github.kmpbits.skeletal.sample
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

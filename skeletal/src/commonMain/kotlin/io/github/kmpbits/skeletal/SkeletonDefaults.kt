@@ -1,4 +1,4 @@
-package com.kmpbits.skeletal
+package io.github.kmpbits.skeletal
 
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.tween

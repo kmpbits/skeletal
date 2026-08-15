@@ -1,4 +1,4 @@
-package com.kmpbits.skeletal
+package io.github.kmpbits.skeletal
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

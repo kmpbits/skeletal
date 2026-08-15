@@ -1,4 +1,4 @@
-package com.kmpbits.skeletal
+package io.github.kmpbits.skeletal
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.compositionLocalOf

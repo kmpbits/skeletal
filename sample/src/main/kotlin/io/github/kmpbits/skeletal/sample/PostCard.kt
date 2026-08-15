@@ -1,4 +1,4 @@
-package com.kmpbits.skeletal.sample
+package io.github.kmpbits.skeletal.sample
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,9 +18,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.kmpbits.skeletal.SkeletonContainer
-import com.kmpbits.skeletal.SkeletonShape
-import com.kmpbits.skeletal.skeleton
+import io.github.kmpbits.skeletal.SkeletonContainer
+import io.github.kmpbits.skeletal.SkeletonShape
+import io.github.kmpbits.skeletal.skeleton
 
 /**
  * A feed card demonstrating all three [SkeletonShape] variants: [SkeletonShape.Circle] for the

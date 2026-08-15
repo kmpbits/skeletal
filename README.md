@@ -42,9 +42,10 @@ per element.
 
 ## Install
 
-This library isn't published to Maven Central yet, so there's no
-`implementation("com.kmpbits:skeletal:...")` coordinate to depend on. Until
-it is, pull it in as a Gradle composite build:
+This library isn't published to Maven Central yet (see
+[`PUBLISHING.md`](PUBLISHING.md)), so there's no
+`implementation("io.github.kmpbits:skeletal:...")` coordinate to depend on
+yet. Until it is, pull it in as a Gradle composite build:
 
 1. Clone this repo somewhere alongside your project:
    ```bash
@@ -58,7 +59,7 @@ it is, pull it in as a Gradle composite build:
 3. Depend on it from your module's `build.gradle.kts` as usual:
    ```kotlin
    dependencies {
-       implementation("com.kmpbits:skeletal")
+       implementation("io.github.kmpbits:skeletal")
    }
    ```
 
@@ -67,7 +68,7 @@ Once this is published to Maven Central, installation will just be:
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("com.kmpbits:skeletal:<version>")
+    implementation("io.github.kmpbits:skeletal:<version>")
 }
 ```
 
