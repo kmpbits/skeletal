@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "skeletal-root"
 include(":skeletal")
+include(":sample")
