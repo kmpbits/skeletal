@@ -26,6 +26,14 @@ internal val SkeletonLoadingKey = SemanticsPropertyKey<Boolean>("SkeletalLoading
 internal var SemanticsPropertyReceiver.skeletalLoading by SkeletonLoadingKey
 
 /**
+ * Test-only hook exposing the live, animated crossfade alpha ([Animatable] value driving
+ * `graphicsLayer.alpha`/the shimmer's complementary alpha) so tests can assert the reveal is
+ * genuinely animated over time rather than an instant cut.
+ */
+internal val SkeletonContentAlphaKey = SemanticsPropertyKey<Float>("SkeletalContentAlpha")
+internal var SemanticsPropertyReceiver.skeletalContentAlpha by SkeletonContentAlphaKey
+
+/**
  * Draws a shimmering placeholder over this element while an ancestor [SkeletonContainer] is
  * loading, sized and shaped per [shape]. A no-op (draws real content only) with no ancestor
  * [SkeletonContainer].
@@ -49,7 +57,10 @@ fun Modifier.skeleton(shape: SkeletonShape = SkeletonShape.Auto): Modifier = com
     // inside it) — the shimmer is drawn by the outer block using its own `alpha` draw
     // param, so it fades independently instead of being dragged down by the same alpha.
     this
-        .semantics { skeletalLoading = loading }
+        .semantics {
+            skeletalLoading = loading
+            skeletalContentAlpha = contentAlpha.value
+        }
         .drawWithContent {
             drawContent()
             val shimmerAlpha = 1f - contentAlpha.value

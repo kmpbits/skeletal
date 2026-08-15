@@ -15,6 +15,8 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.unit.dp
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class SkeletonModifierTest {
 
@@ -131,5 +133,48 @@ class SkeletonModifierTest {
         waitForIdle()
 
         onNodeWithTag(SkeletonTestTags.SKELETON).assert(hasSkeletonLoading(false))
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun revealAnimatesContentAlphaOverCrossfadeDuration() = runComposeUiTest {
+        mainClock.autoAdvance = false
+        var loading by mutableStateOf(true)
+        setContent {
+            MaterialTheme {
+                SkeletonContainer(loading = loading) {
+                    Text(
+                        text = "hello",
+                        modifier = Modifier
+                            .testTag(SkeletonTestTags.SKELETON)
+                            .skeleton(),
+                    )
+                }
+            }
+        }
+        waitForIdle()
+
+        // SkeletonDefaults.crossfadeSpec is a 180ms tween. Advancing only halfway through it
+        // must land on a genuinely mid-transition alpha — proving the reveal is animated, not
+        // an instant cut from 0f to 1f on the same recomposition as the state flip.
+        loading = false
+        mainClock.advanceTimeBy(90L)
+        waitForIdle()
+
+        val midAlpha = onNodeWithTag(SkeletonTestTags.SKELETON)
+            .fetchSemanticsNode()
+            .config[SkeletonContentAlphaKey]
+        assertTrue(
+            midAlpha > 0f && midAlpha < 1f,
+            "expected a mid-transition alpha strictly between 0f and 1f, was $midAlpha",
+        )
+
+        mainClock.advanceTimeBy(200L)
+        waitForIdle()
+
+        val finalAlpha = onNodeWithTag(SkeletonTestTags.SKELETON)
+            .fetchSemanticsNode()
+            .config[SkeletonContentAlphaKey]
+        assertEquals(1f, finalAlpha)
     }
 }
