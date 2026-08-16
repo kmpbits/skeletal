@@ -5,7 +5,7 @@ on:
     types: [published]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   publish:
@@ -26,6 +26,25 @@ jobs:
         run: |
           TAG="${GITHUB_REF_NAME}"
           echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Update release notes from CHANGELOG.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          NOTES="$(awk -v ver="$VERSION" '
+            /^## \[/ {
+              if (found) exit
+              if ($0 ~ "\\[" ver "\\]") { found=1; next }
+            }
+            /^\[.+\]:/ { if (found) exit }
+            found { print }
+          ' CHANGELOG.md)"
+          if [ -z "$NOTES" ]; then
+            echo "No CHANGELOG.md section found for version $VERSION — leaving release notes as-is."
+          else
+            gh release edit "${GITHUB_REF_NAME}" --notes "$NOTES"
+          fi
 
       - name: Run tests
         run: ./gradlew :skeletal:desktopTest

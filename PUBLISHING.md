@@ -56,9 +56,18 @@ them.
 [`.github/workflows/publish.yml`](.github/workflows/publish.yml) runs
 automatically whenever a **GitHub Release is published** on this repo. It
 derives the version from the release's tag (e.g. tag `v0.2.0` → published
-version `0.2.0`), runs the test suite, then runs the same
-`publishToMavenCentral` step as the manual flow above — including the same
-manual "Publish" click required afterward on central.sonatype.com.
+version `0.2.0`), overwrites the release's notes with the matching
+`## [X.Y.Z]` section from [`CHANGELOG.md`](CHANGELOG.md) (whatever you
+typed into the Release form is replaced — leave it blank), runs the test
+suite, then runs the same `publishToMavenCentral` step as the manual flow
+above — including the same manual "Publish" click required afterward on
+central.sonatype.com.
+
+Before tagging a release, add a `## [X.Y.Z] - YYYY-MM-DD` section to
+`CHANGELOG.md` (move the relevant `[Unreleased]` entries under it). If no
+matching section exists for the tag's version, the workflow leaves the
+release notes as whatever was already there and continues — it doesn't
+fail the release.
 
 The workflow needs four repository secrets, matching the same values as
 the local `~/.gradle/gradle.properties` setup above:
