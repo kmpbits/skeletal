@@ -37,11 +37,22 @@ class MainActivity : ComponentActivity() {
 private fun SampleScreen() {
     var loading by remember { mutableStateOf(true) }
     var reloadKey by remember { mutableIntStateOf(0) }
+    var stateDrivenState by remember {
+        mutableStateOf<SampleState<SamplePost>>(SampleState.Loading)
+    }
 
     LaunchedEffect(reloadKey) {
         loading = true
+        stateDrivenState = SampleState.Loading
         delay(SIMULATED_LOAD_DELAY_MILLIS)
         loading = false
+        // Alternates Success/Failure on each reload, so the "Reload" button exercises all
+        // three SampleState cases without needing a separate control.
+        stateDrivenState = if (reloadKey % 2 == 0) {
+            SampleState.Success(samplePosts.first())
+        } else {
+            SampleState.Failure("Couldn't refresh this post")
+        }
     }
 
     Scaffold(
@@ -52,6 +63,9 @@ private fun SampleScreen() {
         },
     ) { padding ->
         LazyColumn(modifier = Modifier.padding(padding)) {
+            item {
+                StateDrivenPostCard(state = stateDrivenState)
+            }
             items(samplePosts) { post ->
                 PostCard(post = if (loading) null else post)
             }

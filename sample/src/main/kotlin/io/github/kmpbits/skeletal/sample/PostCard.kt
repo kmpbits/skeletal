@@ -30,41 +30,51 @@ import io.github.kmpbits.skeletal.skeleton
 @Composable
 fun PostCard(post: SamplePost?) {
     SkeletonContainer(loading = post == null) {
-        Card(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Box(
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.primaryContainer)
-                            .skeleton(shape = SkeletonShape.Circle),
-                    )
+        PostCardBody(post)
+    }
+}
 
-                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Text(
-                            text = post?.title ?: "",
-                            style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.fillMaxWidth(0.6f).skeleton(),
-                        )
-                        Text(
-                            text = post?.subtitle ?: "",
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.fillMaxWidth(0.4f).skeleton(),
-                        )
-                    }
-                }
-
+/**
+ * The card layout shared by [PostCard] (driven by a nullable [SamplePost] plus a plain
+ * [Boolean]) and [StateDrivenPostCard] (driven by a [SampleState]) — both wrap this in a
+ * [SkeletonContainer], just via a different overload.
+ */
+@Composable
+internal fun PostCardBody(post: SamplePost?) {
+    Card(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 Box(
                     modifier = Modifier
-                        .padding(top = 12.dp)
-                        .fillMaxWidth()
-                        .height(120.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(MaterialTheme.colorScheme.secondaryContainer)
-                        .skeleton(shape = SkeletonShape.RoundedCorner(12.dp)),
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primaryContainer)
+                        .skeleton(shape = SkeletonShape.Circle),
                 )
+
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text(
+                        text = post?.title ?: "",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.fillMaxWidth(0.6f).skeleton(),
+                    )
+                    Text(
+                        text = post?.subtitle ?: "",
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.fillMaxWidth(0.4f).skeleton(),
+                    )
+                }
             }
+
+            Box(
+                modifier = Modifier
+                    .padding(top = 12.dp)
+                    .fillMaxWidth()
+                    .height(120.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                    .skeleton(shape = SkeletonShape.RoundedCorner(12.dp)),
+            )
         }
     }
 }
