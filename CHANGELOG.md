@@ -4,9 +4,7 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## [Unreleased]
-
-## [0.1.0] - 2026-08-16
+## [0.1.0]
 
 ### Added
 
@@ -19,5 +17,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   and crossfade animation defaults, all overridable per `SkeletonContainer`.
 - Android, iOS, and Desktop (JVM) targets.
 
-[Unreleased]: https://github.com/kmpbits/skeletal/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/kmpbits/skeletal/releases/tag/v0.1.0
