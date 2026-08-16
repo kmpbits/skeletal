@@ -1,5 +1,9 @@
 # Skeletal
 
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.kmpbits/skeletal)](https://central.sonatype.com/artifact/io.github.kmpbits/skeletal)
+[![Tests](https://github.com/kmpbits/skeletal/actions/workflows/test.yml/badge.svg)](https://github.com/kmpbits/skeletal/actions/workflows/test.yml)
+[![License](https://img.shields.io/github/license/kmpbits/skeletal)](LICENSE)
+
 Automatic loading skeletons for Compose Multiplatform. Wrap your existing
 composables — no parallel skeleton UI to build or maintain.
 
