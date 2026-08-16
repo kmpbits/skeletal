@@ -42,35 +42,16 @@ per element.
 
 ## Install
 
-This library isn't published to Maven Central yet (see
-[`PUBLISHING.md`](PUBLISHING.md)), so there's no
-`implementation("io.github.kmpbits:skeletal:...")` coordinate to depend on
-yet. Until it is, pull it in as a Gradle composite build:
-
-1. Clone this repo somewhere alongside your project:
-   ```bash
-   git clone https://github.com/kmpbits/skeletal.git
-   ```
-2. In your project's `settings.gradle.kts`, add:
-   ```kotlin
-   includeBuild("../skeletal")
-   ```
-   (adjust the relative path to wherever you cloned it)
-3. Depend on it from your module's `build.gradle.kts` as usual:
-   ```kotlin
-   dependencies {
-       implementation("io.github.kmpbits:skeletal")
-   }
-   ```
-
-Once this is published to Maven Central, installation will just be:
+Available on [Maven Central](https://central.sonatype.com/artifact/io.github.kmpbits/skeletal):
 
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("io.github.kmpbits:skeletal:<version>")
+    implementation("io.github.kmpbits:skeletal:0.1.0")
 }
 ```
+
+See [`PUBLISHING.md`](PUBLISHING.md) for how new versions are released.
 
 ## API
 
