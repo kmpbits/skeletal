@@ -4,6 +4,16 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased]
+
+### Added
+
+- `SkeletonContainer(state, dataOrNull, isFailure, onFailure, content)` — a
+  state-driven overload for sealed/state-based loading (e.g. a
+  `Loading`/`Success`/`Failure` state), deriving `loading` and a typed
+  success payload from the caller's own state instead of a plain
+  `Boolean`, with a dedicated `onFailure` slot.
+
 ## [0.1.0]
 
 ### Added

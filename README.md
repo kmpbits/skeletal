@@ -79,6 +79,39 @@ fun Modifier.skeleton(
 it's safe to leave on an element regardless of whether it's currently
 inside a loading context.
 
+### State-driven loading
+
+For state modeled as a sealed class instead of a plain `Boolean`, a second
+overload takes the state directly plus two small extractor lambdas — the
+success payload flows into `content` already typed, and failures get their
+own dedicated slot:
+
+```kotlin
+sealed interface Loadable<out T> {
+    data object Loading : Loadable<Nothing>
+    data class Loaded<T>(val value: T) : Loadable<T>
+    data class Failed(val error: Throwable) : Loadable<Nothing>
+}
+
+SkeletonContainer(
+    state = state, // Loadable<Post>
+    dataOrNull = { (it as? Loadable.Loaded)?.value },
+    isFailure = { it is Loadable.Failed },
+    onFailure = { Text("Something went wrong") },
+) { post ->
+    Card {
+        Text(
+            text = post?.title ?: "",
+            modifier = Modifier.fillMaxWidth(0.6f).skeleton()
+        )
+    }
+}
+```
+
+`onFailure` has no default — a caller reaching for this overload already
+has a failure case to handle. Callers without one should keep using the
+plain `loading: Boolean` overload above.
+
 ## Sample
 
 An Android sample app lives in [`sample/`](sample) — a scrollable feed of

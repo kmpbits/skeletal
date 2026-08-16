@@ -9,6 +9,12 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
+private sealed interface TestState {
+    data object Loading : TestState
+    data class Success(val value: String) : TestState
+    data object Failure : TestState
+}
+
 class SkeletonContainerTest {
 
     @OptIn(ExperimentalTestApi::class)
@@ -72,5 +78,70 @@ class SkeletonContainerTest {
             }
         }
         assertNotNull(scope?.shimmerPhase)
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun failureStateComposesOnFailureAndSkipsContent() = runComposeUiTest {
+        val state: TestState = TestState.Failure
+        var failureComposed = false
+        var contentComposed = false
+        setContent {
+            MaterialTheme {
+                SkeletonContainer(
+                    state = state,
+                    dataOrNull = { (it as? TestState.Success)?.value },
+                    isFailure = { it is TestState.Failure },
+                    onFailure = { failureComposed = true },
+                ) {
+                    contentComposed = true
+                }
+            }
+        }
+        assertEquals(true, failureComposed)
+        assertEquals(false, contentComposed)
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun loadingStateWithNullDataDrivesUnderlyingLoadingTrue() = runComposeUiTest {
+        val state: TestState = TestState.Loading
+        var scope: SkeletonScope? = null
+        setContent {
+            MaterialTheme {
+                SkeletonContainer(
+                    state = state,
+                    dataOrNull = { (it as? TestState.Success)?.value },
+                    isFailure = { it is TestState.Failure },
+                    onFailure = { },
+                ) {
+                    scope = LocalSkeletonScope.current
+                }
+            }
+        }
+        assertEquals(true, scope?.loading)
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun successStatePassesDataToContentAndDrivesLoadingFalse() = runComposeUiTest {
+        val state: TestState = TestState.Success("hello")
+        var received: String? = null
+        var scope: SkeletonScope? = null
+        setContent {
+            MaterialTheme {
+                SkeletonContainer(
+                    state = state,
+                    dataOrNull = { (it as? TestState.Success)?.value },
+                    isFailure = { it is TestState.Failure },
+                    onFailure = { },
+                ) { data ->
+                    received = data
+                    scope = LocalSkeletonScope.current
+                }
+            }
+        }
+        assertEquals("hello", received)
+        assertEquals(false, scope?.loading)
     }
 }
