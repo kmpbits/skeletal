@@ -28,7 +28,7 @@ fun StateDrivenPostCard(state: SampleState<SamplePost>) {
 }
 
 @Composable
-private fun FailureCard(message: String) {
+internal fun FailureCard(message: String) {
     Card(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
         Text(
             text = message,

@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [0.3.0]
 
+### Added
+
+- `LoadState<T, F>` — a `Loading`/`Success`/`Failure` sealed state, plus a
+  matching `SkeletonContainer(state, onFailure, content)` overload for it.
+  Unlike the `isFailure`/`dataOrNull` overload, `state`'s shape is fixed
+  to `LoadState` in exchange for `onFailure` receiving a concretely typed
+  failure payload with no cast required. `Loading` isn't special-cased by
+  the overload — it's whatever `state` isn't `Success` or `Failure`, so
+  the shimmer shows automatically with no extra branching needed.
+  Demonstrated in the sample app via `LoadStatePostCard`.
+
 ### Changed
 
 - `SkeletonContainer(state, dataOrNull, isFailure, onFailure, content)`'s

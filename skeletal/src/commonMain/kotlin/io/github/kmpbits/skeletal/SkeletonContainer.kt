@@ -99,3 +99,32 @@ fun <S, T> SkeletonContainer(
         content(data)
     }
 }
+
+/**
+ * Resolves a [LoadState] into the [loading]-driven overload above. Unlike the `isFailure`/
+ * `dataOrNull` overload, [state]'s shape is fixed to [LoadState] in exchange for [onFailure]
+ * receiving a concretely typed [F] — the [LoadState.Failure.reason] — instead of the raw state.
+ */
+@Composable
+fun <T, F> SkeletonContainer(
+    state: LoadState<T, F>,
+    modifier: Modifier = Modifier,
+    shimmerColors: List<Color> = SkeletonDefaults.shimmerColors,
+    cornerRadius: Dp = SkeletonDefaults.cornerRadius,
+    onFailure: @Composable (F) -> Unit,
+    content: @Composable (T?) -> Unit,
+) {
+    if (state is LoadState.Failure) {
+        onFailure(state.reason)
+        return
+    }
+    val data = (state as? LoadState.Success)?.data
+    SkeletonContainer(
+        loading = data == null,
+        modifier = modifier,
+        shimmerColors = shimmerColors,
+        cornerRadius = cornerRadius,
+    ) {
+        content(data)
+    }
+}

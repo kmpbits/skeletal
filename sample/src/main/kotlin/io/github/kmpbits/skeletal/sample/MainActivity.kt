@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import io.github.kmpbits.skeletal.LoadState
 import kotlinx.coroutines.delay
 
 private const val SIMULATED_LOAD_DELAY_MILLIS = 2500L
@@ -40,18 +41,24 @@ private fun SampleScreen() {
     var stateDrivenState by remember {
         mutableStateOf<SampleState<SamplePost>>(SampleState.Loading)
     }
+    var loadState by remember {
+        mutableStateOf<LoadState<SamplePost, String>>(LoadState.Loading)
+    }
 
     LaunchedEffect(reloadKey) {
         loading = true
         stateDrivenState = SampleState.Loading
+        loadState = LoadState.Loading
         delay(SIMULATED_LOAD_DELAY_MILLIS)
         loading = false
         // Alternates Success/Failure on each reload, so the "Reload" button exercises all
-        // three SampleState cases without needing a separate control.
-        stateDrivenState = if (reloadKey % 2 == 0) {
-            SampleState.Success(samplePosts.first())
+        // three SampleState/LoadState cases without needing a separate control.
+        if (reloadKey % 2 == 0) {
+            stateDrivenState = SampleState.Success(samplePosts.first())
+            loadState = LoadState.Success(samplePosts.first())
         } else {
-            SampleState.Failure("Couldn't refresh this post")
+            stateDrivenState = SampleState.Failure("Couldn't refresh this post")
+            loadState = LoadState.Failure("Couldn't refresh this post")
         }
     }
 
@@ -65,6 +72,9 @@ private fun SampleScreen() {
         LazyColumn(modifier = Modifier.padding(padding)) {
             item {
                 StateDrivenPostCard(state = stateDrivenState)
+            }
+            item {
+                LoadStatePostCard(state = loadState)
             }
             items(samplePosts) { post ->
                 PostCard(post = if (loading) null else post)
