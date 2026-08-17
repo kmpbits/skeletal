@@ -115,8 +115,10 @@ plain `loading: Boolean` overload above.
 ## Sample
 
 An Android sample app lives in [`sample/`](sample) — a scrollable feed of
-cards exercising all three `SkeletonShape` variants, with a "Reload" button
-to re-trigger the loading state. Run it from Android Studio, or:
+cards exercising all three `SkeletonShape` variants, plus a `StateDrivenPostCard`
+demonstrating the state-driven overload. A "Reload" button re-triggers loading
+for both, alternating the state-driven card between its `Success` and
+`Failure` cases on each reload. Run it from Android Studio, or:
 
 ```bash
 ./gradlew :sample:assembleDebug

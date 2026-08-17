@@ -12,7 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   state-driven overload for sealed/state-based loading (e.g. a
   `Loading`/`Success`/`Failure` state), deriving `loading` and a typed
   success payload from the caller's own state instead of a plain
-  `Boolean`, with a dedicated `onFailure` slot.
+  `Boolean`, with a dedicated `onFailure` slot. Demonstrated in the sample
+  app via `StateDrivenPostCard`.
 
 ## [0.1.0]
 
