@@ -55,8 +55,6 @@ dependencies {
 }
 ```
 
-See [`PUBLISHING.md`](PUBLISHING.md) for how new versions are released.
-
 ## API
 
 ```kotlin
