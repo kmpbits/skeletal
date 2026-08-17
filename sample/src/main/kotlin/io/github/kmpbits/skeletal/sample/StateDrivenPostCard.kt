@@ -21,7 +21,7 @@ fun StateDrivenPostCard(state: SampleState<SamplePost>) {
         state = state,
         dataOrNull = { (it as? SampleState.Success)?.data },
         isFailure = { it is SampleState.Failure },
-        onFailure = { FailureCard((state as SampleState.Failure).message) },
+        onFailure = { failure -> FailureCard((failure as SampleState.Failure).message) },
     ) { post ->
         PostCardBody(post)
     }

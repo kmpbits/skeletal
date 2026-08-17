@@ -69,9 +69,10 @@ fun SkeletonContainer(
 
 /**
  * Resolves [state] into the [loading]-driven overload above. [isFailure] is checked first — if
- * true, only [onFailure] is composed and [content] is skipped entirely (no shimmer is shown
- * either). Otherwise [dataOrNull] determines both [content]'s argument and whether the shimmer
- * is shown (`loading = data == null`), unchanged from the plain [Boolean] overload's behavior.
+ * true, only [onFailure] is composed with [state] and [content] is skipped entirely (no shimmer
+ * is shown either). Otherwise [dataOrNull] determines both [content]'s argument and whether the
+ * shimmer is shown (`loading = data == null`), unchanged from the plain [Boolean] overload's
+ * behavior.
  */
 @Composable
 fun <S, T> SkeletonContainer(
@@ -81,11 +82,11 @@ fun <S, T> SkeletonContainer(
     modifier: Modifier = Modifier,
     shimmerColors: List<Color> = SkeletonDefaults.shimmerColors,
     cornerRadius: Dp = SkeletonDefaults.cornerRadius,
-    onFailure: @Composable () -> Unit,
+    onFailure: @Composable (S) -> Unit,
     content: @Composable (T?) -> Unit,
 ) {
     if (isFailure(state)) {
-        onFailure()
+        onFailure(state)
         return
     }
     val data = dataOrNull(state)

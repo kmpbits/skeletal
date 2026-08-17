@@ -4,6 +4,15 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.3.0]
+
+### Changed
+
+- `SkeletonContainer(state, dataOrNull, isFailure, onFailure, content)`'s
+  `onFailure` slot is now `@Composable (S) -> Unit`, receiving the failure
+  state directly instead of requiring callers to re-derive it from the
+  outer `state`.
+
 ## [0.2.0]
 
 ### Added
