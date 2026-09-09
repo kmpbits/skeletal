@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.4.10"
+kotlin = "2.3.21"
 compose-multiplatform = "1.10.3"
 agp = "8.13.2"
 android-compileSdk = "35"

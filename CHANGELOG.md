@@ -4,6 +4,15 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.3.1]
+
+### Changed
+
+- Built against Kotlin `2.3.21` (was `2.4.10`). The `2.4.10` build produced
+  klibs with `konanAbiVersion 2.4.0`, which Kotlin/Native `2.3.x` consumers
+  cannot read: resolution failed with "KLIB resolver: Could not find ...".
+  No API or behaviour changes.
+
 ## [0.3.0]
 
 ### Added
