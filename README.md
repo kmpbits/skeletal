@@ -51,7 +51,7 @@ Available on [Maven Central](https://central.sonatype.com/artifact/io.github.kmp
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation("io.github.kmpbits:skeletal:0.1.0")
+    implementation("io.github.kmpbits:skeletal:<version>")
 }
 ```
 
