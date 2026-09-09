@@ -14,6 +14,7 @@ internal class SkeletonScope(
     val shimmerPhase: State<Float>,
     val shimmerColors: List<Color>,
     val cornerRadius: Dp,
-)
+) : SkeletalScope
+
 
 internal val LocalSkeletonScope = compositionLocalOf<SkeletonScope?> { null }

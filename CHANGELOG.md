@@ -4,6 +4,15 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.4.0]
+
+### Changed
+
+- `Modifier.skeleton()` is now restricted to `SkeletalScope`. This ensures it's
+  only used within a `SkeletonContainer` and allows sharing state/animation
+  logic more safely. Composables that use `.skeleton()` should now be
+  defined as extensions on `SkeletalScope`.
+
 ## [0.3.1]
 
 ### Changed

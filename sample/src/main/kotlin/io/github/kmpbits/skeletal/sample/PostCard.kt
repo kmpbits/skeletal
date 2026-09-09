@@ -18,9 +18,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import io.github.kmpbits.skeletal.SkeletalScope
 import io.github.kmpbits.skeletal.SkeletonContainer
 import io.github.kmpbits.skeletal.SkeletonShape
-import io.github.kmpbits.skeletal.skeleton
 
 /**
  * A feed card demonstrating all three [SkeletonShape] variants: [SkeletonShape.Circle] for the
@@ -40,7 +40,7 @@ fun PostCard(post: SamplePost?) {
  * [SkeletonContainer], just via a different overload.
  */
 @Composable
-internal fun PostCardBody(post: SamplePost?) {
+internal fun SkeletalScope.PostCardBody(post: SamplePost?) {
     Card(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {

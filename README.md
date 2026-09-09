@@ -64,18 +64,30 @@ fun SkeletonContainer(
     modifier: Modifier = Modifier,
     shimmerColors: List<Color> = SkeletonDefaults.shimmerColors, // MaterialTheme-derived by default
     cornerRadius: Dp = SkeletonDefaults.cornerRadius,             // 4.dp by default
-    content: @Composable () -> Unit,
+    content: @Composable SkeletalScope.() -> Unit,
 )
 
-fun Modifier.skeleton(
-    shape: SkeletonShape = SkeletonShape.Auto, // own bounds, rounded rect
-    // also: SkeletonShape.Circle, SkeletonShape.RoundedCorner(radius)
-): Modifier
+interface SkeletalScope {
+    fun Modifier.skeleton(
+        shape: SkeletonShape = SkeletonShape.Auto, // own bounds, rounded rect
+        // also: SkeletonShape.Circle, SkeletonShape.RoundedCorner(radius)
+    ): Modifier
+}
 ```
 
-`Modifier.skeleton()` with no ancestor `SkeletonContainer` is a no-op, so
-it's safe to leave on an element regardless of whether it's currently
-inside a loading context.
+`Modifier.skeleton()` is scoped to `SkeletalScope`, which is provided by `SkeletonContainer` to its `content` block. This ensures that skeletons are only used where a container is present to drive their animation.
+
+If you need to extract a composable that uses `.skeleton()`, simply make it an extension on `SkeletalScope`:
+
+```kotlin
+@Composable
+fun SkeletalScope.PostCardBody(post: Post?) {
+    Text(
+        text = post?.title ?: "",
+        modifier = Modifier.skeleton()
+    )
+}
+```
 
 ### State-driven loading
 

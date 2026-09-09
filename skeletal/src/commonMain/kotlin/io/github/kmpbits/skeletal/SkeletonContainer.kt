@@ -30,7 +30,7 @@ fun SkeletonContainer(
     modifier: Modifier = Modifier,
     shimmerColors: List<Color> = SkeletonDefaults.shimmerColors,
     cornerRadius: Dp = SkeletonDefaults.cornerRadius,
-    content: @Composable () -> Unit,
+    content: @Composable SkeletalScope.() -> Unit,
 ) {
     // The infinite transition (and the frame-callback loop backing it) is only composed while
     // loading is true. When loading flips to false, this branch leaves composition, which
@@ -62,7 +62,7 @@ fun SkeletonContainer(
 
     CompositionLocalProvider(LocalSkeletonScope provides scope) {
         Box(modifier) {
-            content()
+            scope.content()
         }
     }
 }
@@ -83,7 +83,7 @@ fun <S, T> SkeletonContainer(
     shimmerColors: List<Color> = SkeletonDefaults.shimmerColors,
     cornerRadius: Dp = SkeletonDefaults.cornerRadius,
     onFailure: @Composable (S) -> Unit,
-    content: @Composable (T?) -> Unit,
+    content: @Composable SkeletalScope.(T?) -> Unit,
 ) {
     if (isFailure(state)) {
         onFailure(state)
@@ -112,7 +112,7 @@ fun <T, F> SkeletonContainer(
     shimmerColors: List<Color> = SkeletonDefaults.shimmerColors,
     cornerRadius: Dp = SkeletonDefaults.cornerRadius,
     onFailure: @Composable (F) -> Unit,
-    content: @Composable (T?) -> Unit,
+    content: @Composable SkeletalScope.(T?) -> Unit,
 ) {
     if (state is LoadState.Failure) {
         onFailure(state.reason)

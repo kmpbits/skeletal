@@ -35,22 +35,6 @@ class SkeletonModifierTest {
 
     @OptIn(ExperimentalTestApi::class)
     @Test
-    fun outsideContainerSkeletonIsNoOpAndContentRenders() = runComposeUiTest {
-        setContent {
-            MaterialTheme {
-                Text(
-                    text = "hello",
-                    modifier = Modifier
-                        .testTag(SkeletonTestTags.SKELETON)
-                        .skeleton(),
-                )
-            }
-        }
-        onNodeWithTag(SkeletonTestTags.SKELETON).assert(hasSkeletonLoading(false))
-    }
-
-    @OptIn(ExperimentalTestApi::class)
-    @Test
     fun insideLoadingContainerSemanticsReportsLoadingTrue() = runComposeUiTest {
         setContent {
             MaterialTheme {
